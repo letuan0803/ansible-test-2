@@ -1,0 +1,19 @@
+- hosts: nlb
+  become: true
+  tasks:
+  - name: Update apt cache
+    ansible.builtin.apt:
+      update_cache: yes
+
+  # Install Nginx
+  - name: Install Nginx
+    ansible.builtin.apt:
+      name: nginx
+      state: present
+
+  # Ensure Nginx is enabled and started
+  - name: Ensure Nginx is running
+    ansible.builtin.service:
+      name: nginx
+      state: started
+      enabled: yes

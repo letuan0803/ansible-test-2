@@ -1,0 +1,18 @@
+[nlb]
+sre-vm-nlb ansible_host=10.0.1.157
+
+[mnt]
+sre-vm-mnt ansible_host=10.0.1.152
+
+[k8s]
+sre-vm-k8s-1 ansible_host=10.0.129.207
+sre-vm-k8s-2 ansible_host=10.0.129.206
+sre-vm-k8s-3 ansible_host=10.0.129.249
+
+[harbor]
+sre-vm-harbor ansible_host=10.0.1.70
+
+[all:vars]
+ansible_user=ubuntu
+ansible_ssh_private_key_file=/home/ubuntu/.ssh/sre.pem
+ansible_python_interpreter=/usr/bin/python3.10
