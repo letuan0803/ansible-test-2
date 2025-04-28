@@ -143,12 +143,20 @@
         state: directory
         mode: '0755'
 
-    # Download Kubernetes GPG key
+      # Download Kubernetes GPG key
     - name: Download Kubernetes GPG key
       get_url:
         url: https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key
-        dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+        dest: /tmp/kubernetes-release.key
         mode: '0644'
+
+    - name: Dearmor Kubernetes GPG key
+      command: gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg /tmp/kubernetes-release.key
+
+    - name: Remove temporary GPG key file
+      file:
+        path: /tmp/kubernetes-release.key
+        state: absent
 
     # Add Kubernetes apt repository
     - name: Add Kubernetes apt repository
