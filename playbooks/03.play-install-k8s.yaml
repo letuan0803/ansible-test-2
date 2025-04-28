@@ -146,7 +146,7 @@
     # Download Kubernetes GPG key
     - name: Download Kubernetes GPG key
       get_url:
-        url: https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key
+        url: https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key
         dest: /etc/apt/keyrings/kubernetes-apt-keyring.gpg
         mode: '0644'
 
@@ -154,7 +154,7 @@
     - name: Add Kubernetes apt repository
       copy:
         content: |
-          deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /
+          deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /
         dest: /etc/apt/sources.list.d/kubernetes.list
         mode: '0644'
 
