@@ -1,5 +1,5 @@
 - name: Prepare
-  hosts: k8s-master,k8s-worker
+  hosts: k8s_master,k8s_worker
   become: true
   tasks:
   # Disabling Swap 
@@ -42,7 +42,7 @@
       - { name: 'net.ipv4.ip_forward', value: '1' }
 
 - name: Install Docker and configure containerd
-  hosts: k8s-master,k8s-worker
+  hosts: k8s_master,k8s_worker
   become: true
   tasks:
     # Update apt cache
@@ -118,7 +118,7 @@
         enabled: yes
 
 - name: Install kubeadm, kubelet, and kubectl
-  hosts: k8s-master,k8s-worker
+  hosts: k8s_master,k8s_worker
   become: true
   tasks:
     # Update apt package index

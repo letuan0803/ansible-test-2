@@ -4,10 +4,10 @@ sre-vm-nlb ansible_host=10.0.1.157
 [mnt]
 sre-vm-mnt ansible_host=10.0.1.152
 
-[k8s-master]
+[k8s_master]
 sre-vm-k8s-1 ansible_host=10.0.129.128
 
-[k8s-worker]
+[k8s_worker]
 sre-vm-k8s-2 ansible_host=10.0.129.42
 sre-vm-k8s-3 ansible_host=10.0.129.76
 

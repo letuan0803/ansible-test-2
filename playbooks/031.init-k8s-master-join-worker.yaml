@@ -1,6 +1,6 @@
 ---
 - name: Initialize Kubernetes Master
-  hosts: k8s-master
+  hosts: k8s_master
   become: true
   tasks:
     - name: Initialize Kubernetes master node
@@ -36,8 +36,8 @@
       changed_when: false
 
 - name: Join Kubernetes Worker Nodes
-  hosts: k8s-worker
+  hosts: k8s_worker
   become: true
   tasks:
     - name: Join worker nodes to the cluster
-      command: "{{ hostvars[groups['k8s-master'][0]].join_command.stdout }}"
+      command: "{{ hostvars[groups['k8s_master'][0]].join_command.stdout }}"
