@@ -19,9 +19,9 @@
       line: "{{ item }}"
       state: present
     loop:
-      - "10.0.129.207 sre-vm-k8s-1"
-      - "10.0.129.206 sre-vm-k8s-2"
-      - "10.0.129.249 sre-vm-k8s-3"
+      - "10.0.129.133 sre-vm-k8s-1"
+      - "10.0.129.42 sre-vm-k8s-2"
+      - "10.0.129.76 sre-vm-k8s-3"
 
   - name: Enable Require Modules
     modprobe:
