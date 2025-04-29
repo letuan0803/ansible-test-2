@@ -19,7 +19,7 @@
       line: "{{ item }}"
       state: present
     loop:
-      - "10.0.129.128 sre-vm-k8s-1"
+      - "10.0.129.81 sre-vm-k8s-1"
       - "10.0.129.42 sre-vm-k8s-2"
       - "10.0.129.76 sre-vm-k8s-3"
 
