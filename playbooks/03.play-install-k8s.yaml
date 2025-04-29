@@ -104,12 +104,11 @@
         dest: /etc/containerd/config.toml
 
     # Update containerd configuration to use systemd cgroup
-    - name: Update containerd configuration to use systemd cgroup
-      lineinfile:
+    - name: Ensure SystemdCgroup is set to true
+      replace:
         path: /etc/containerd/config.toml
-        regexp: '^\s*SystemdCgroup\s*=\s*false'
-        line: 'SystemdCgroup = true'
-        backrefs: yes
+        regexp: '^\s*SystemdCgroup\s*=.*'
+        replace: '            SystemdCgroup = true'
 
     # Restart and enable containerd
     - name: Restart and enable containerd
