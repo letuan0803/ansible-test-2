@@ -182,14 +182,7 @@
 
     # Mark kubeadm, kubelet, and kubectl to hold their versions
     - name: Hold kubeadm, kubelet, and kubectl versions
-      apt:
-        name:
-          - kubelet
-          - kubeadm
-          - kubectl
-        state: present
-        force: yes
-        mark: hold
+      command: apt-mark hold kubelet kubeadm kubectl
 
     # Enable and start kubelet service
     - name: Enable and start kubelet service
