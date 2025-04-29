@@ -5,11 +5,11 @@ sre-vm-nlb ansible_host=10.0.1.157
 sre-vm-mnt ansible_host=10.0.1.152
 
 [k8s_master]
-sre-vm-k8s-1 ansible_host=10.0.129.81
+sre-vm-k8s-1 ansible_host=10.0.129.182
 
 [k8s_worker]
-sre-vm-k8s-2 ansible_host=10.0.129.42
-sre-vm-k8s-3 ansible_host=10.0.129.76
+sre-vm-k8s-2 ansible_host=10.0.129.17
+sre-vm-k8s-3 ansible_host=10.0.129.135
 
 [harbor]
 sre-vm-harbor ansible_host=10.0.1.70

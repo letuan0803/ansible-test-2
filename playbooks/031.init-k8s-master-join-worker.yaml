@@ -4,8 +4,12 @@
   become: true
   tasks:
     - name: Initialize Kubernetes master node
-      command: kubeadm init --pod-network-cidr=10.244.0.0/16
+      command: kubeadm init
       register: kubeadm_init_output
+
+    - name: Print init command
+      debug:
+        msg: "{{ kubeadm_init_output.stdout }}"
 
     - name: Create .kube directory for the user
       file:
@@ -24,10 +28,10 @@
         group: ubuntu
         mode: '0644'
 
-    # - name: Install Calico CNI
-    #   command: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
-    #   environment:
-    #     KUBECONFIG: /home/ubuntu/.kube/config
+    - name: Install Calico CNI
+      command: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.3/manifests/calico.yaml
+      environment:
+        KUBECONFIG: /home/ubuntu/.kube/config
 
     - name: Extract join command
       shell: |
@@ -35,9 +39,17 @@
       register: join_command
       changed_when: false
 
+    - name: Print join command
+      debug:
+        msg: "{{ join_command.stdout }}"
+
 - name: Join Kubernetes Worker Nodes
   hosts: k8s_worker
   become: true
   tasks:
     - name: Join worker nodes to the cluster
       command: "{{ hostvars[groups['k8s_master'][0]].join_command.stdout }}"
+
+    - name: Print join command for worker nodes
+      debug:
+        msg: "{{ hostvars[groups['k8s_master'][0]].join_command.stdout }}"
