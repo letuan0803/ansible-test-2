@@ -3,30 +3,30 @@
   hosts: k8s_master
   become: true
   tasks:
-    - name: Initialize Kubernetes master node
-      command: kubeadm init --apiserver-advertise-address {{ hostvars[inventory_hostname]['ansible_host'] }}
-      register: kubeadm_init_output
+    # - name: Initialize Kubernetes master node
+    #   command: kubeadm init --apiserver-advertise-address {{ hostvars[inventory_hostname]['ansible_host'] }}
+    #   register: kubeadm_init_output
 
-    - name: Print init command
-      debug:
-        msg: "{{ kubeadm_init_output.stdout }}"
+    # - name: Print init command
+    #   debug:
+    #     msg: "{{ kubeadm_init_output.stdout }}"
 
-    - name: Create .kube directory for the user
-      file:
-        path: /home/ubuntu/.kube
-        state: directory
-        owner: ubuntu
-        group: ubuntu
-        mode: '0755'
+    # - name: Create .kube directory for the user
+    #   file:
+    #     path: /home/ubuntu/.kube
+    #     state: directory
+    #     owner: ubuntu
+    #     group: ubuntu
+    #     mode: '0755'
 
-    - name: Copy kubeconfig to user's home directory
-      copy:
-        src: /etc/kubernetes/admin.conf
-        dest: /home/ubuntu/.kube/config
-        remote_src: yes
-        owner: ubuntu
-        group: ubuntu
-        mode: '0644'
+    # - name: Copy kubeconfig to user's home directory
+    #   copy:
+    #     src: /etc/kubernetes/admin.conf
+    #     dest: /home/ubuntu/.kube/config
+    #     remote_src: yes
+    #     owner: ubuntu
+    #     group: ubuntu
+    #     mode: '0644'
 
     - name: Install Calico CNI
       command: kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.3/manifests/calico.yaml
@@ -43,13 +43,13 @@
       debug:
         msg: "{{ join_command.stdout }}"
 
-- name: Join Kubernetes Worker Nodes
-  hosts: k8s_worker
-  become: true
-  tasks:
-    - name: Join worker nodes to the cluster
-      command: "{{ hostvars[groups['k8s_master'][0]].join_command.stdout }}"
+# - name: Join Kubernetes Worker Nodes
+#   hosts: k8s_worker
+#   become: true
+#   tasks:
+#     - name: Join worker nodes to the cluster
+#       command: "{{ hostvars[groups['k8s_master'][0]].join_command.stdout }}"
 
-    - name: Print join command for worker nodes
-      debug:
-        msg: "{{ hostvars[groups['k8s_master'][0]].join_command.stdout }}"
+#     - name: Print join command for worker nodes
+#       debug:
+#         msg: "{{ hostvars[groups['k8s_master'][0]].join_command.stdout }}"
