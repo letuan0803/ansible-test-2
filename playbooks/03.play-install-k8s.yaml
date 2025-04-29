@@ -121,6 +121,15 @@
   hosts: k8s_master,k8s_worker
   become: true
   tasks:
+    # Ensure no other process is holding the dpkg lock
+    - name: Ensure no other process is holding the dpkg lock
+      shell: |
+        while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do
+          echo "Waiting for other apt processes to finish..."
+          sleep 5
+        done
+      changed_when: false
+
     # Update apt package index
     - name: Update apt package index
       apt:
