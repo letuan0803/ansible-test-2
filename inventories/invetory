@@ -11,8 +11,8 @@ k8s-master-vm-01 ansible_host=10.0.129.10
 k8s-worker-vm-01 ansible_host=10.0.129.11
 k8s-worker-vm-02 ansible_host=10.0.129.12
 
-#[harbor]
-#sre-vm-harbor ansible_host=10.0.1.70
+[harbor]
+harbor-vm ansible_host=10.0.1.12
 
 [all:vars]
 ansible_user=ubuntu
