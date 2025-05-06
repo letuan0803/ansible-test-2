@@ -27,15 +27,18 @@
         src: "/tmp/harbor-online-installer-v{{ harbor_version }}.tgz"
         dest: "{{ harbor_install_dir }}"
         remote_src: yes
+        extra_opts:
+          - --strip-components=1
 
-    # Uncomment and complete the following tasks as needed
-    # - name: Copy Harbor configuration file
-    #   ansible.builtin.template:
-    #     src: "templates/harbor.yml.j2"
-    #     dest: "{{ harbor_config_file }}"
-    #     owner: root
-    #     group: root
-    #     mode: 0644
+    - name: Copy Harbor configuration file
+      ansible.builtin.template:
+        src: "templates/harbor.yml.j2"
+        dest: "{{ harbor_config_file }}"
+        owner: root
+        group: root
+        mode: 0644
+      vars:
+        harbor_hostname: "{{ hostvars[groups['harbor'][0]]['ansible_host'] }}"
 
     # - name: Install Harbor
     #   ansible.builtin.command:
