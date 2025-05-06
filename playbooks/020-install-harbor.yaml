@@ -9,15 +9,13 @@
     harbor_download_url: "https://github.com/goharbor/harbor/releases/download/v{{ harbor_version }}/harbor-online-installer-v{{ harbor_version }}.tgz"
 
   tasks:
-    # - name: Ensure required packages are installed
-    #   ansible.builtin.apt:
-    #     name:
-    #       - wget
-    #       - tar
-    #       - docker.io
-    #       - docker-compose-plugin
-    #     state: present
-    #     update_cache: yes
+    - name: Ensure Harbor installation directory exists
+      ansible.builtin.file:
+        path: "{{ harbor_install_dir }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
 
     - name: Download Harbor installer
       ansible.builtin.get_url:
@@ -30,6 +28,7 @@
         dest: "{{ harbor_install_dir }}"
         remote_src: yes
 
+    # Uncomment and complete the following tasks as needed
     # - name: Copy Harbor configuration file
     #   ansible.builtin.template:
     #     src: "templates/harbor.yml.j2"
