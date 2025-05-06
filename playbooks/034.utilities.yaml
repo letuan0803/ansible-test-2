@@ -1,7 +1,6 @@
 ---
 - name: Configure kubectl completion and alias on Kubernetes Master
   hosts: k8s_master
-  become: true
   tasks:
     # Ensure bash-completion is installed
     - name: Install bash-completion
