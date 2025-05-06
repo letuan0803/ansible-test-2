@@ -1,7 +1,7 @@
 ---
 - name: Install Harbor on Ubuntu 22.04
   hosts: harbor
-  become: yes
+  become: true
   vars:
     harbor_version: "2.13.0"
     harbor_install_dir: "/opt/harbor"
