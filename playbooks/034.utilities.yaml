@@ -1,0 +1,37 @@
+---
+- name: Configure kubectl completion and alias on Kubernetes Master
+  hosts: k8s_master
+  become: true
+  tasks:
+    # Ensure bash-completion is installed
+    - name: Install bash-completion
+      package:
+        name: bash-completion
+        state: present
+
+    # Add kubectl completion to bashrc
+    - name: Add kubectl completion to bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: "source <(kubectl completion bash)"
+        state: present
+
+    # Add alias for kubectl to bashrc
+    - name: Add kubectl alias to bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: "alias k=kubectl"
+        state: present
+
+    # Add kubectl completion for alias to bashrc
+    - name: Add kubectl alias completion to bashrc
+      lineinfile:
+        path: ~/.bashrc
+        line: "complete -o default -F __start_kubectl k"
+        state: present
+
+    # Source bashrc to apply changes
+    - name: Source bashrc
+      shell: source ~/.bashrc
+      args:
+        executable: /bin/bash
