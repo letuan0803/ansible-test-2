@@ -1,16 +1,18 @@
 - name: Install NGINX Ingress Controller using Helm
   hosts: localhost
-  gather_facts: no
+  gather_facts: false
   tasks:
-    - name: Add the Helm stable repository
+    - name: Add the Helm OCI repository
       ansible.builtin.command:
-        cmd: helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-      register: helm_repo_add
-      changed_when: "'\"has been added\"' in helm_repo_add.stdout"
+        cmd: helm registry login ghcr.io
+      register: helm_registry_login
+      changed_when: "'\"Login Succeeded\"' in helm_registry_login.stdout"
 
-    - name: Update Helm repositories
+    - name: Pull the NGINX Ingress Controller chart
       ansible.builtin.command:
-        cmd: helm repo update
+        cmd: helm pull oci://ghcr.io/nginx/charts/nginx-ingress --version 1.0.0 --untar
+      args:
+        chdir: /tmp
 
     - name: Create a namespace for the ingress controller
       community.kubernetes.k8s:
@@ -19,16 +21,17 @@
           apiVersion: v1
           kind: Namespace
           metadata:
-            name: ingress-nginx
+            name: nginx-ingress
 
     - name: Install the NGINX Ingress Controller
       community.kubernetes.helm:
         name: nginx-ingress
-        chart_ref: ingress-nginx/ingress-nginx
-        release_namespace: ingress-nginx
+        chart_ref: /tmp/nginx-ingress
+        release_namespace: nginx-ingress
         create_namespace: false
         values:
           controller:
             replicaCount: 2
             service:
-              type: LoadBalancer
+              type: NodePort
+              nodePort: 30080
