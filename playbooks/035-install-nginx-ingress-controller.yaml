@@ -45,7 +45,7 @@
           kind: Namespace
           metadata:
             name: nginx-ingress
-      kubeconfig: /home/ubuntu/.kube/config
+        kubeconfig: /home/ubuntu/.kube/config
 
     - name: Install the NGINX Ingress Controller
       community.kubernetes.helm:
