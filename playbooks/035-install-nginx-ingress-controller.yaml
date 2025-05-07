@@ -37,23 +37,23 @@
       args:
         chdir: /tmp
 
-    - name: Create a namespace for the ingress controller
-      community.kubernetes.k8s:
-        state: present
-        definition:
-          apiVersion: v1
-          kind: Namespace
-          metadata:
-            name: nginx-ingress
-        kubeconfig: /home/ubuntu/.kube/config
-      become: true
+    # - name: Create a namespace for the ingress controller
+    #   community.kubernetes.k8s:
+    #     state: present
+    #     definition:
+    #       apiVersion: v1
+    #       kind: Namespace
+    #       metadata:
+    #         name: nginx-ingress
+    #     kubeconfig: /home/ubuntu/.kube/config
+    #     remote_src: true
 
     - name: Install the NGINX Ingress Controller
       community.kubernetes.helm:
         name: nginx-ingress
         chart_ref: /tmp/nginx-ingress
         release_namespace: nginx-ingress
-        create_namespace: false
+        create_namespace: true
         values:
           controller:
             replicaCount: 2
