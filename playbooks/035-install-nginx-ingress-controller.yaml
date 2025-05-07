@@ -2,11 +2,10 @@
   hosts: k8s_master
   gather_facts: false
   tasks:
-    # - name: Add the Helm OCI repository
-    #   ansible.builtin.command:
-    #     cmd: helm registry login ghcr.io
-    #   register: helm_registry_login
-    #   changed_when: "'\"Login Succeeded\"' in helm_registry_login.stdout"
+    - name: Ensure Python dependencies are installed
+      ansible.builtin.raw: |
+        python3 -m pip install --user openshift kubernetes
+      changed_when: false
 
     - name: Pull the NGINX Ingress Controller chart
       ansible.builtin.command:
