@@ -25,7 +25,7 @@
         executable: pip3
 
 - name: Create an NGINX pod and service for testing
-  hosts: k8s_master
+  hosts: localhost
   gather_facts: false
   tasks:
     - name: Create an NGINX pod
@@ -54,6 +54,8 @@
           metadata:
             name: nginx-service
             namespace: default
+            labels:
+              app: nginx-test
           spec:
             selector:
               app: nginx-test
