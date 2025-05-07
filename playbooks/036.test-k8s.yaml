@@ -11,6 +11,8 @@
           metadata:
             name: nginx-test
             namespace: default
+            labels:
+              app: nginx-test
           spec:
             containers:
               - name: nginx
