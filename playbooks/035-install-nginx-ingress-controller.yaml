@@ -29,6 +29,7 @@
         cmd: helm pull oci://ghcr.io/nginx/charts/nginx-ingress --version 2.1.0 --untar
       args:
         chdir: /tmp
+      creates: /tmp/nginx-ingress
 
     - name: Create a namespace for the ingress controller
       community.kubernetes.k8s:
