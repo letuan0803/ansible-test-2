@@ -59,4 +59,5 @@
             replicaCount: 2
             service:
               type: NodePort
-              nodePort: 30080
+              httpPort:
+                nodePort: 30080
