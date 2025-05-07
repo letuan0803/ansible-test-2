@@ -3,15 +3,26 @@
   gather_facts: false
   become: true
   tasks:
-    - name: Ensure pip is installed
-      ansible.builtin.raw: |
-        apt-get update -y && apt-get install -y python3-pip
-      changed_when: false
+    - name: Update apt cache
+      apt:
+        update_cache: yes
 
-    - name: Ensure Python dependencies are installed
-      ansible.builtin.raw: |
-        python3 -m pip install --user openshift kubernetes
-      changed_when: false
+    - name: Install required system packages
+      apt:
+        name:
+          - python3-pip
+          - python3-venv
+          - curl
+          - gnupg
+          - apt-transport-https
+        state: present
+
+    - name: Install pip packages for Kubernetes interaction
+      pip:
+        name:
+          - openshift
+          - kubernetes
+        executable: pip3
 
     - name: Pull the NGINX Ingress Controller chart
       ansible.builtin.command:
