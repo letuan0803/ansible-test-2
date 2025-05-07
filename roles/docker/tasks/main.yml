@@ -1,37 +1,42 @@
 ---
-- name: Ensure prerequisites are installed
-  ansible.builtin.apt:
-    name: 
-      - apt-transport-https
-      - ca-certificates
-      - curl
-      - software-properties-common
+- name: Install required apt packages
+  apt:
+    name: ['apt-transport-https', 'ca-certificates', 'curl', 'gnupg', 'lsb-release']
     state: present
     update_cache: yes
 
-- name: Download Docker's official GPG key
-  ansible.builtin.get_url:
+- name: Add Docker GPG key
+  apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
-    dest: /tmp/docker.gpg
-
-- name: Add Docker's official GPG key
-  ansible.builtin.command:
-    cmd: gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg /tmp/docker.gpg
-
-- name: Add Docker's official APT repository
-  ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     state: present
+
+- name: Add Docker APT repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
+    state: present
+    filename: docker
 
 - name: Update APT cache
-  ansible.builtin.apt:
+  apt:
     update_cache: yes
 
-- name: Install Docker and Docker Compose plugin
-  ansible.builtin.apt:
-    name: 
+- name: Install Docker packages
+  apt:
+    name:
       - docker-ce
       - docker-ce-cli
       - containerd.io
       - docker-compose-plugin
-    state: present
+    state: latest
+
+- name: Add current user to docker group
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+- name: Enable and start Docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
