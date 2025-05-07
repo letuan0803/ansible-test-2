@@ -1,6 +1,7 @@
 - name: Install NGINX Ingress Controller using Helm
   hosts: k8s_master
   gather_facts: false
+  become: true
   tasks:
     - name: Ensure pip is installed
       ansible.builtin.raw: |
