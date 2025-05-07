@@ -1,7 +1,13 @@
 - name: Install NGINX Ingress Controller using Helm
-  hosts: localhost
+  hosts: k8s_master
   gather_facts: false
   tasks:
+    - name: Add the Helm OCI repository
+      ansible.builtin.command:
+        cmd: helm registry login ghcr.io
+      register: helm_registry_login
+      changed_when: "'\"Login Succeeded\"' in helm_registry_login.stdout"
+
     - name: Pull the NGINX Ingress Controller chart
       ansible.builtin.command:
         cmd: helm pull oci://ghcr.io/nginx/charts/nginx-ingress --version 1.0.0 --untar
