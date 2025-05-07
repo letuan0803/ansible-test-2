@@ -37,3 +37,5 @@
               externalTrafficPolicy: Cluster
               httpPort:
                 nodePort: 30080
+              httpsPort:
+                enabled: false
