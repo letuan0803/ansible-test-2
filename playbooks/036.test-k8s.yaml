@@ -1,35 +1,9 @@
-# - name: Install NGINX Ingress Controller using Helm
-#   hosts: localhost
-#   gather_facts: false
-#   become: true
-#   tasks:
-#     - name: Update apt cache
-#       apt:
-#         update_cache: yes
-
-#     - name: Install required system packages
-#       apt:
-#         name:
-#           - python3-pip
-#           - python3-venv
-#           - curl
-#           - gnupg
-#           - apt-transport-https
-#         state: present
-
-#     - name: Install pip packages for Kubernetes interaction
-#       pip:
-#         name:
-#           - openshift
-#           - kubernetes
-#         executable: pip3
-
 - name: Create an NGINX pod and service for testing
   hosts: localhost
   gather_facts: false
   tasks:
     - name: Create an NGINX pod
-      community.kubernetes.k8s:
+      kubernetes.core.k8s:
         state: present
         definition:
           apiVersion: v1
@@ -46,7 +20,7 @@
         kubeconfig: /home/ubuntu/.kube/config
 
     - name: Expose the NGINX pod as a service
-      community.kubernetes.k8s:
+      kubernetes.core.k8s:
         state: present
         definition:
           apiVersion: v1
