@@ -32,7 +32,7 @@
 
     - name: Copy Harbor configuration file
       ansible.builtin.template:
-        src: "templates/harbor.yml.j2"
+        src: "../templates/harbor.yml.j2"
         dest: "{{ harbor_config_file }}"
         owner: root
         group: root
