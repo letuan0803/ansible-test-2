@@ -40,10 +40,10 @@
       vars:
         harbor_hostname: "{{ hostvars[groups['harbor'][0]]['ansible_host'] }}"
 
-    # - name: Install Harbor
-    #   ansible.builtin.command:
-    #     cmd: "./install.sh"
-    #     chdir: "{{ harbor_install_dir }}"
+    - name: Install Harbor
+      ansible.builtin.command:
+        cmd: "./install.sh"
+        chdir: "{{ harbor_install_dir }}"
     #   environment:
     #     DOCKER_COMPOSE: "/usr/libexec/docker/cli-plugins/docker-compose"
 
