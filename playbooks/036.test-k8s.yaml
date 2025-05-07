@@ -5,5 +5,5 @@
     - name: Create an NGINX pod
       kubernetes.core.k8s:
         state: present
-        src: ./files/test_k8s.yaml
+        src: ../files/test_k8s.yaml
         kubeconfig: /home/ubuntu/.kube/config
