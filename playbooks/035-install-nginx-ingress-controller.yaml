@@ -1,11 +1,11 @@
 - name: Install NGINX Ingress Controller using Helm
   hosts: k8s_master
   gather_facts: false
-  become: true
   tasks:
     - name: Update apt cache
       apt:
         update_cache: yes
+      become: true
 
     - name: Install required system packages
       apt:
@@ -16,6 +16,7 @@
           - gnupg
           - apt-transport-https
         state: present
+      become: true
 
     - name: Install pip packages for Kubernetes interaction
       pip:
@@ -23,6 +24,7 @@
           - openshift
           - kubernetes
         executable: pip3
+      become: true
 
     - name: Ensure /tmp/nginx-ingress folder is removed if it exists
       ansible.builtin.file:
@@ -43,6 +45,7 @@
           kind: Namespace
           metadata:
             name: nginx-ingress
+      kubeconfig: /home/ubuntu/.kube/config
 
     - name: Install the NGINX Ingress Controller
       community.kubernetes.helm:
