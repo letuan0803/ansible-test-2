@@ -46,6 +46,7 @@
           metadata:
             name: nginx-ingress
         kubeconfig: /home/ubuntu/.kube/config
+        remote_src: true
 
     - name: Install the NGINX Ingress Controller
       community.kubernetes.helm:
