@@ -7,7 +7,8 @@
     harbor_install_dir: "/opt/harbor"
     harbor_config_file: "/opt/harbor/harbor.yml"
     harbor_download_url: "https://github.com/goharbor/harbor/releases/download/v{{ harbor_version }}/harbor-online-installer-v{{ harbor_version }}.tgz"
-
+  roles:
+    - roles/docker
   tasks:
     - name: Ensure Harbor installation directory exists
       ansible.builtin.file:
