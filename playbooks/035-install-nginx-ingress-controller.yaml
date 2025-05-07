@@ -2,29 +2,29 @@
   hosts: k8s_master
   gather_facts: false
   tasks:
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-      become: true
+    # - name: Update apt cache
+    #   apt:
+    #     update_cache: yes
+    #   become: true
 
-    - name: Install required system packages
-      apt:
-        name:
-          - python3-pip
-          - python3-venv
-          - curl
-          - gnupg
-          - apt-transport-https
-        state: present
-      become: true
+    # - name: Install required system packages
+    #   apt:
+    #     name:
+    #       - python3-pip
+    #       - python3-venv
+    #       - curl
+    #       - gnupg
+    #       - apt-transport-https
+    #     state: present
+    #   become: true
 
-    - name: Install pip packages for Kubernetes interaction
-      pip:
-        name:
-          - openshift
-          - kubernetes
-        executable: pip3
-      become: true
+    # - name: Install pip packages for Kubernetes interaction
+    #   pip:
+    #     name:
+    #       - openshift
+    #       - kubernetes
+    #     executable: pip3
+    #   become: true
 
     - name: Ensure /tmp/nginx-ingress folder is removed if it exists
       ansible.builtin.file:
@@ -37,23 +37,22 @@
       args:
         chdir: /tmp
 
-    # - name: Create a namespace for the ingress controller
-    #   community.kubernetes.k8s:
-    #     state: present
-    #     definition:
-    #       apiVersion: v1
-    #       kind: Namespace
-    #       metadata:
-    #         name: nginx-ingress
-    #     kubeconfig: /home/ubuntu/.kube/config
-    #     remote_src: true
+    - name: Create a namespace for the ingress controller
+      community.kubernetes.k8s:
+        state: present
+        definition:
+          apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: nginx-ingress
+        kubeconfig: /home/ubuntu/.kube/config
 
     - name: Install the NGINX Ingress Controller
       community.kubernetes.helm:
         name: nginx-ingress
         chart_ref: /tmp/nginx-ingress
         release_namespace: nginx-ingress
-        create_namespace: true
+        create_namespace: false
         values:
           controller:
             replicaCount: 2
