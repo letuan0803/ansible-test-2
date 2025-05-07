@@ -24,6 +24,11 @@
           - kubernetes
         executable: pip3
 
+    - name: Ensure /tmp/nginx-ingress folder is removed if it exists
+      ansible.builtin.file:
+        path: /tmp/nginx-ingress
+        state: absent
+
     - name: Pull the NGINX Ingress Controller chart
       ansible.builtin.command:
         cmd: helm pull oci://ghcr.io/nginx/charts/nginx-ingress --version 2.1.0 --untar
